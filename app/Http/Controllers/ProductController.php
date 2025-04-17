@@ -24,21 +24,57 @@ class ProductController extends Controller
     }   
 
     public function show($id){
-        $product= Product::find($id);
-        return response()->json($product);
+        $return = "Product not found";
+        
+        $product = Product::find($id);
+
+        if($product){}
+            $return = $product;
+
+        return response()->json($return);
     }
 
-    public function update($id, Request $request){
+    public function verificar_pedido($id){
+        $return = "Product not found";
+        
         $product = Product::find($id);
-        $product->update($request->all());
 
-        return response()->json('Product Update!');
+        if($product){}
+            $return = $product;
+
+        return response()->json("->".$return);
+    }
+
+
+    public function update($id, Request $request){
+        $return = "Product Update!";
+
+        $product = Product::find($id);
+
+        if($product){
+            if(!$product->update($request->all())){
+                $return = "Product not Update!.";
+            };
+        } else {
+            $return = "Product Not Found!";
+        }
+
+        return response()->json($return);
     }
 
     public function destroy($id){
-        $product = Product::find($id);
-        $product->delete();
+        $return = "Product Deleted!";
 
-        return response()->json('Product Deleted!');
+        $product = Product::find($id);
+
+        if($product){
+            if(!$product->delete()){
+                $return = "Product not Deleted!.";
+            };
+        } else {
+            $return = "Product Not Found!";
+        }
+
+        return response()->json($return);
     }
 }
